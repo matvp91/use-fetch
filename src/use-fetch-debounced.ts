@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import type { Fetcher, Key, Options } from "./types";
-import { useStableValue } from "./use-stable-value";
 import { useFetch } from "./use-fetch";
+import { useStableValue } from "./use-stable-value";
 
+/**
+ * Debounced fetch data.
+ * @param fetcher
+ * @param key
+ * @param options
+ * @returns
+ */
 export function useFetchDebounced<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
