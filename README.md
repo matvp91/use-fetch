@@ -75,7 +75,10 @@ function Notes({ notes, initialPage }: { notes: Note[], initialPage: number ) 
     return await api.fetchNotes({
       page,
     });
-  }, [page]);
+  }, [page], {
+    // Pass our notes from the server as initialData. 
+    initialData: notes,
+  });
 
   // result.data will always be of type Note[]
   return <ListOfNotes notes={result.data} />;
