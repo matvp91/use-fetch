@@ -37,6 +37,11 @@ export function useFetch<T, K extends Key>(
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const ctxRef = useRef<RequestContext>(null);
 
+  // Skip the first render when we have initialData, this can happen when
+  // we set the first value manually (eg; in an SSR situation).
+  // BEWARE! This is under the assumption that the key matches the initialData.
+  const skipFirstFetchRef = useRef(options.initialData !== undefined);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [data, setData] = useState(() => {
@@ -99,6 +104,10 @@ export function useFetch<T, K extends Key>(
   // fetchData has a different reference for a new key.
   // We can refetch here.
   useEffect(() => {
+    if (skipFirstFetchRef.current) {
+      skipFirstFetchRef.current = false;
+      return;
+    }
     fetchData(stableKey);
   }, [stableKey, fetchData]);
 
