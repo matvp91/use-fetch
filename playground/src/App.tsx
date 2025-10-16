@@ -26,6 +26,7 @@ export function App() {
     },
     [page],
     {
+      // refetchInterval: 3,
       onError: (error) => console.error(error),
       onSuccess: (data) => console.log(data),
     },

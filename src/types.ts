@@ -5,13 +5,14 @@ export type FetcherContext<K> = {
 
 export type Fetcher<T, K> = (ctx: FetcherContext<K>) => Promise<T>;
 
-type ArgumentsTuple = readonly [IntendedAny, ...unknown[]];
-
-export type Key = string | ArgumentsTuple | Record<IntendedAny, IntendedAny>;
+export type Key = string | readonly [any, ...unknown[]] | Record<any, any>;
 
 export interface RequestContext {
   abortController: AbortController;
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: Intended
-export type IntendedAny = any;
+export interface Options<T> {
+  refetchInterval?: number;
+  onError?(error: unknown): void;
+  onSuccess?(data: T): void;
+}
