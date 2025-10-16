@@ -1,12 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Fetcher, Key, Options, RequestContext } from "./types";
+import type {
+  Fetcher,
+  Key,
+  Options,
+  RequestContext,
+  UseFetchReturn,
+} from "./types";
 import { useStableValue } from "./use-stable-value";
 
 export function useFetch<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
+  options: Options<T> & { initialData: T },
+): UseFetchReturn<T>;
+export function useFetch<T, K extends Key>(
+  fetcher: Fetcher<T, K>,
+  key: K,
+  options?: Options<T>,
+): UseFetchReturn<T | null>;
+export function useFetch<T, K extends Key>(
+  fetcher: Fetcher<T, K>,
+  key: K,
   options: Options<T> = {},
-) {
+): UseFetchReturn<T | null> {
   const fetcherRef = useRef(fetcher);
   // On each render, we're going to update the fetcher, this'll allow us to
   // call it anywhere without adding it to a dependency list.
@@ -23,7 +39,9 @@ export function useFetch<T, K extends Key>(
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
-  const [data, setData] = useState<T | null>(null);
+  const [data, setData] = useState(() => {
+    return options.initialData ?? null;
+  });
 
   const fetchData = useCallback(
     async (key: K) => {
@@ -55,7 +73,7 @@ export function useFetch<T, K extends Key>(
           // fetcher does not contain abort logic.
           return;
         }
-        setData(data);
+        setData(data ?? null);
         events.onSuccess?.(data);
       } catch (error) {
         if (ctx.abortController.signal.aborted) {
@@ -88,6 +106,8 @@ export function useFetch<T, K extends Key>(
     // Cleanup of side effects.
     return () => {
       clearTimeout(timerRef.current);
+      // Abort a pending request.
+      ctxRef.current?.abortController.abort();
     };
   }, []);
 

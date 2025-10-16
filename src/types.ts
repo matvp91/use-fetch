@@ -12,7 +12,14 @@ export interface RequestContext {
 }
 
 export interface Options<T> {
+  initialData?: T;
   refetchInterval?: number;
   onError?(error: unknown): void;
   onSuccess?(data: T): void;
+}
+
+export interface UseFetchReturn<T> {
+  data: T;
+  error: unknown;
+  isLoading: boolean;
 }
