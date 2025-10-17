@@ -7,5 +7,9 @@ export default defineConfig({
     environment: "happy-dom",
     globals: true,
     setupFiles: "./tests/setup.ts",
+    coverage: {
+      reporter: ["text", "json-summary", "json"],
+      reportOnFailure: true,
+    },
   },
 });

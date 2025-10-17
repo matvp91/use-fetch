@@ -1,0 +1,29 @@
+name: Test
+on: 
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "23.x"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test
+        run: vitest --coverage
+
+      - name: Report coverage
+        if: always() 
+        uses: davelosert/vitest-coverage-report-action@v2
