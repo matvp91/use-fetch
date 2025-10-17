@@ -53,6 +53,7 @@ export function useFetch<T, K extends Key>(
   const stableEventsRef = useRef({
     onError: options.onError,
     onSuccess: options.onSuccess,
+    onLoading: options.onLoading,
   });
 
   const stableKey = useStableValue(key);
@@ -81,14 +82,19 @@ export function useFetch<T, K extends Key>(
 
       const ctx: RequestContext = {
         abortController: new AbortController(),
+        get isAborted() {
+          const { signal } = this.abortController;
+          return signal.aborted;
+        },
       };
       ctxRef.current = ctx;
 
-      // Reset state.
-      setIsLoading(true);
-      setError(null);
-
       const events = stableEventsRef.current;
+
+      setIsLoading(true);
+      events.onLoading?.();
+
+      setError(null);
 
       try {
         const data = await fetcherRef.current({
@@ -103,7 +109,7 @@ export function useFetch<T, K extends Key>(
         setData(data ?? null);
         events.onSuccess?.(data);
       } catch (error) {
-        if (ctx.abortController.signal.aborted) {
+        if (ctx.isAborted) {
           // An abort error is expected, we shall not set it as error.
           return;
         }
@@ -142,5 +148,10 @@ export function useFetch<T, K extends Key>(
     };
   }, []);
 
-  return { data, error, isLoading };
+  const refetch = useCallback(
+    () => fetchData(stableKey),
+    [stableKey, fetchData],
+  );
+
+  return { data, error, isLoading, refetch };
 }
