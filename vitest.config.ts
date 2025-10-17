@@ -10,6 +10,7 @@ export default defineConfig({
     coverage: {
       reporter: ["text", "json-summary", "json"],
       reportOnFailure: true,
+      exclude: ["./playground"],
     },
   },
 });
