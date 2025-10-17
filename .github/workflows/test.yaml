@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Test
-        run: vitest --coverage
+        run: npm run test --coverage
 
       - name: Report coverage
         if: always() 
