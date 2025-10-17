@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Fetcher, Key, Options } from "./types";
+import type { Fetcher, Key, OptionsWithDebounce } from "./types";
 import { useFetch } from "./use-fetch";
 import { useStableValue } from "./use-stable-value";
 
@@ -7,17 +7,13 @@ import { useStableValue } from "./use-stable-value";
  * Debounced fetch data.
  * @param fetcher
  * @param key
- * @param options
+ * @param {OptionsWithDebounce} options
  * @returns
  */
 export function useFetchDebounced<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
-  options: Options<T> & {
-    debounceDelay: number;
-  } = {
-    debounceDelay: 1,
-  },
+  options: OptionsWithDebounce<T>,
 ) {
   const { debounceDelay, ...fetchOptions } = options;
 

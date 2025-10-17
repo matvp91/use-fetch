@@ -3,43 +3,37 @@ import type {
   Fetcher,
   Key,
   Options,
-  RequestContext,
+  OptionsWithInitialData,
   UseFetchReturn,
 } from "./types";
 import { useStableValue } from "./use-stable-value";
 
 /**
- * Fetch data, with initial data. This is particularly handy in an SSR situation,
- * where you can set the first value from elsewhere.
- * This'll also skip the first fetch with the assumption that the initialData matches
- * the provided key.
+ * Fetch with initial data.
+ * @overload
  * @param fetcher
  * @param key
- * @param options
+ * @param {OptionsWithInitialData} options
+ * @returns
+ */
+
+/**
+ * Fetch.
+ * @param fetcher
+ * @param key
+ * @param {Options} options
+ * @returns
  */
 export function useFetch<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
-  options: Options<T> & { initialData: T },
+  options: OptionsWithInitialData<T>,
 ): UseFetchReturn<T>;
-/**
- * Fetch data, with no initial data.
- * @param fetcher
- * @param key
- * @param options
- */
 export function useFetch<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
   options?: Options<T>,
 ): UseFetchReturn<T | null>;
-/**
- * Fetch data.
- * @param fetcher
- * @param key
- * @param options
- * @returns
- */
 export function useFetch<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
@@ -156,4 +150,9 @@ export function useFetch<T, K extends Key>(
   );
 
   return { data, error, isLoading, refetch };
+}
+
+interface RequestContext {
+  abortController: AbortController;
+  isAborted: boolean;
 }

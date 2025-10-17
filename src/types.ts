@@ -1,17 +1,24 @@
+/**
+ * Fetcher, an async function that resolves or rejects into data.
+ */
+export type Fetcher<T, K extends Key> = (ctx: FetcherContext<K>) => Promise<T>;
+
+/**
+ * Context given to each fetcher call.
+ */
 export type FetcherContext<K extends Key = Key> = {
   key: K;
   signal: AbortSignal;
 };
 
-export type Fetcher<T, K extends Key> = (ctx: FetcherContext<K>) => Promise<T>;
-
+/**
+ * Key identifier.
+ */
 export type Key = string | readonly [any, ...unknown[]] | Record<any, any>;
 
-export interface RequestContext {
-  abortController: AbortController;
-  isAborted: boolean;
-}
-
+/**
+ * Options.
+ */
 export interface Options<T> {
   initialData?: T;
   fetchOnMount?: boolean;
@@ -21,6 +28,19 @@ export interface Options<T> {
   onLoading?(): void;
 }
 
+/**
+ * Options, with initial data defined.
+ */
+export type OptionsWithInitialData<T> = Options<T> & { initialData: T };
+
+/**
+ * Options, for debounce purposes.
+ */
+export type OptionsWithDebounce<T> = Options<T> & { debounceDelay: number };
+
+/**
+ * Return value for useFetch.
+ */
 export interface UseFetchReturn<T> {
   data: T;
   error: unknown;
