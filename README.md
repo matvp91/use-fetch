@@ -9,15 +9,15 @@ A simple fetch hook for making API requests in React apps. Written in TS, with t
 
 Visit the [API reference](https://github.com/matvp91/use-fetch/wiki/API) for more info.
 
-## 1. Installation
+## Installation
 
 ```sh
 npm install @matvp91/use-fetch
 ```
 
-## 2. Usage
+## Usage
 
-### 2.1 Fetch data remotely
+### Fetch data remotely
 
 At its simplest, you supply an asynchronous fetcher function as the first argument, and whenever the key (the second argument) changes, the fetcher automatically runs to retrieve the updated data.
 
@@ -42,7 +42,7 @@ function Component({ id }) {
 }
 ```
 
-### 2.2 Initial data
+### Initial data
 
 With SSR or RSC, your notes might already be available on the server. This example shows how to supply that initial server data and enable the client to continue paginating from it.
 
@@ -76,7 +76,7 @@ function Notes({ notes, initialPage }: { notes: Note[], initialPage: number ) 
 }
 ```
 
-### 2.3 Refetch on an interval
+### Refetch on an interval
 
 You can configure the hook to rerun the fetcher at regular intervals, which is useful for polling.
  
@@ -89,7 +89,7 @@ const result = useFetch(async () => {
 });
 ```
 
-### 2.4 Debounce
+### Debounce
 
 You can debounce the fetcher call - for instance, when a rapidly changing value is driven by an input field. The `useFetchDebounced` hook variant makes this easy.
 
@@ -113,7 +113,7 @@ function Component() {
 }
 ```
 
-### 2.5 Abort pending fetches
+### Abort pending fetches
 
 Each time the fetcher is invoked, it receives a signal that can be used to cancel the ongoing operation. If this logic is not implemented, the result will simply be discarded internally once the fetch either completes or fails.
 
