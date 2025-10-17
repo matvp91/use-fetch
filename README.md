@@ -1,5 +1,11 @@
 # useFetch
 
+[![NPM Version](https://img.shields.io/npm/v/%40matvp91%2Fuse-fetch)](https://npmjs.org/package/@matvp91/use-fetch)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40matvp91%2Fuse-fetch)
+![GitHub last commit](https://img.shields.io/github/last-commit/matvp91/use-fetch)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/matvp91/use-fetch/build.yaml)
+
+
 A simple fetch hook for making API requests in React apps. Written in TS, with type inference done right.
 
 ## Installation
