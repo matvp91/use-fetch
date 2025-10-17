@@ -63,7 +63,9 @@ export function useFetch<T, K extends Key>(
   // Skip the first render when we have initialData, this can happen when
   // we set the first value manually (eg; in an SSR situation).
   // BEWARE! This is under the assumption that the key matches the initialData.
-  const skipFirstFetchRef = useRef(options.initialData !== undefined);
+  const skipFirstFetchRef = useRef(
+    !options.fetchOnMount && options.initialData !== undefined,
+  );
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);

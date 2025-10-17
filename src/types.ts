@@ -14,6 +14,7 @@ export interface RequestContext {
 
 export interface Options<T> {
   initialData?: T;
+  fetchOnMount?: boolean;
   refetchInterval?: number;
   onError?(error: unknown): void;
   onSuccess?(data: T): void;
