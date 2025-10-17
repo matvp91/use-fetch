@@ -14,6 +14,7 @@ Why not just use something like swr, you ask?
 - Much smaller bundle size.
 - It's a LOT smaller in bundle size (265 kB vs. roughly 6 kB)
 - Provides finer-grained control over what and when to fetch.
+- Debounce functionality out of the box.
 
 Visit the [API reference](https://github.com/matvp91/use-fetch/wiki/API) for more info.
 
