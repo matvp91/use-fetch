@@ -1,5 +1,5 @@
 import { act, render, screen } from "@testing-library/react";
-import { test } from "vitest";
+import { expect, test, vi } from "vitest";
 import { useFetch } from "../src";
 import { createResponse, sleep } from "./utils";
 
@@ -48,4 +48,39 @@ test("should be loading when fetcher is busy", async () => {
   await screen.findByText("isLoading: yes");
   await act(() => sleep(100));
   await screen.findByText("isLoading: no");
+});
+
+test("should fire onSuccess event", async () => {
+  const onSuccess = vi.fn();
+
+  function App() {
+    const { data } = useFetch(() => createResponse("I am a response"), [], {
+      onSuccess,
+    });
+    return `data: ${data}`;
+  }
+
+  render(<App />);
+
+  expect(onSuccess).not.toHaveBeenCalled();
+  await act(() => sleep(100));
+  expect(onSuccess).toHaveBeenCalledWith("I am a response");
+});
+
+test("should fire onError event", async () => {
+  const error = new Error();
+  const onError = vi.fn();
+
+  function App() {
+    const { data } = useFetch(() => createResponse(error), [], {
+      onError,
+    });
+    return `data: ${data}`;
+  }
+
+  render(<App />);
+
+  expect(onError).not.toHaveBeenCalled();
+  await act(() => sleep(100));
+  expect(onError).toHaveBeenCalledWith(error);
 });
