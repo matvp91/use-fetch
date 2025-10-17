@@ -21,7 +21,8 @@
     "build": "tsdown",
     "dev": "vite --config playground/vite.config.ts",
     "test": "vitest",
-    "typecheck": "tsc --noEmit",
+    "check": "tsc --noEmit && biome check",
+    "format": "biome check --write",
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm run build",
     "coverage": "vitest run --coverage"
