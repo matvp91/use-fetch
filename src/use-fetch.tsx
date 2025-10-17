@@ -9,31 +9,40 @@ import type {
 import { useStableValue } from "./use-stable-value";
 
 /**
- * Fetch with initial data.
- * @overload
- * @param fetcher
- * @param key
- * @param {OptionsWithInitialData} options
- * @returns
- */
-
-/**
- * Fetch.
- * @param fetcher
- * @param key
- * @param {Options} options
- * @returns
+ * useFetch with initial data provided.
+ *
+ * @template T - Type of the data to fetch.
+ * @template K - Type of the key used for fetching.
+ * @param fetcher - Function that fetches the data.
+ * @param key - The key associated with the fetch request.
+ * @param options - Options including initial data.
+ * @returns The fetch result with guaranteed data type T.
  */
 export function useFetch<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
   options: OptionsWithInitialData<T>,
 ): UseFetchReturn<T>;
+
+/**
+ * useFetch without initial data.
+ *
+ * @template T - Type of the data to fetch.
+ * @template K - Type of the key used for fetching.
+ * @param fetcher - Function that fetches the data.
+ * @param key - The key associated with the fetch request.
+ * @param options - Optional fetch options.
+ * @returns The fetch result with type T or null if data is not yet loaded.
+ */
 export function useFetch<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,
   options?: Options<T>,
 ): UseFetchReturn<T | null>;
+
+/**
+ * @internal
+ */
 export function useFetch<T, K extends Key>(
   fetcher: Fetcher<T, K>,
   key: K,

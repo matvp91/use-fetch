@@ -10,5 +10,8 @@
   "typeAliasPropertiesFormat": "table",
   "enumMembersFormat": "table",
   "propertyMembersFormat": "table",
-  "typeDeclarationFormat": "table"
+  "typeDeclarationFormat": "table",
+  "sourceLinkTemplate": "https://github.com/matvp91/use-fetch/tree/main/{path}#L{line}",
+  "readme": "none",
+  "hideBreadcrumbs": true
 }
