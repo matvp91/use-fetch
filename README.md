@@ -7,6 +7,14 @@
 
 A simple fetch hook for making API requests in React apps. Written in TS, with type inference done right.
 
+Why not just use something like swr, you ask?
+
+- No stale-while-revalidate principle.
+- Fully component-scoped; no shared context.
+- Much smaller bundle size.
+- It's a LOT smaller in bundle size (265 kB vs. roughly 6 kB)
+- Provides finer-grained control over what and when to fetch.
+
 Visit the [API reference](https://github.com/matvp91/use-fetch/wiki/API) for more info.
 
 ## Installation
