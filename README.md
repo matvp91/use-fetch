@@ -9,15 +9,17 @@ A simple fetch hook for making API requests in React apps. Written in TS, with t
 
 Visit the [API reference](https://github.com/matvp91/use-fetch/wiki/API) for more info.
 
-## Installation
+## 1. Installation
 
 ```sh
 npm install @matvp91/use-fetch
 ```
 
-## Usage
+## 2. Usage
 
-Fetch data from the client.
+### 2.1 Fetch data remotely
+
+At its simplest, you supply an asynchronous fetcher function as the first argument, and whenever the key (the second argument) changes, the fetcher automatically runs to retrieve the updated data.
 
 ```ts
 import { useFetch } from "@matvp91/use-fetch";
@@ -40,27 +42,9 @@ function Component({ id }) {
 }
 ```
 
-### Initial data
+### 2.2 Initial data
 
-You can provide `initialData` to ensure that `result.data` is never null. The initialData must match the type returned by the fetcher to maintain type safety.
-
-```ts
-const result = useFetch(async () => {
-  // Assume we return a list of Note types
-  return await api.fetchNotes();
-}, [], {
-  initialData: [],
-});
-
-const {
-  // Data is always of type Note[], it is no longer null.
-  data,
-} = result;
-```
-
-#### RSC example
-
-When using SSR / RSC, your notes may already be available on the server. This example demonstrates how to provide that initial server data and allow the client to continue paginating from it.
+With SSR or RSC, your notes might already be available on the server. This example shows how to supply that initial server data and enable the client to continue paginating from it.
 
 ```ts
 async function App() {
@@ -92,10 +76,10 @@ function Notes({ notes, initialPage }: { notes: Note[], initialPage: number ) 
 }
 ```
 
-### Refetch on an interval
+### 2.3 Refetch on an interval
 
-Great for polling purposes.
-
+You can configure the hook to rerun the fetcher at regular intervals, which is useful for polling.
+ 
 ```ts
 const result = useFetch(async () => {
   return await api.fetchLatestNews();
@@ -105,7 +89,9 @@ const result = useFetch(async () => {
 });
 ```
 
-### Debounce
+### 2.4 Debounce
+
+You can debounce the fetcher call - for instance, when a rapidly changing value is driven by an input field. The `useFetchDebounced` hook variant makes this easy.
 
 ```ts
 import { useFetchDebounced } from "@matvp91/use-fetch";
@@ -124,5 +110,22 @@ function Component() {
 
   // You can call setText as many times as you like, it'll debounce until
   // the amount of seconds are elapsed.
+}
+```
+
+### 2.5 Abort pending fetches
+
+Each time the fetcher is invoked, it receives a signal that can be used to cancel the ongoing operation. If this logic is not implemented, the result will simply be discarded internally once the fetch either completes or fails.
+
+```ts
+function Component() {
+  const result = useFetch(async ({ signal }) => {
+    const response = await fetch(`https://example.com/notes/${id}`, {
+      // Pass the signal to the fetch call.
+      signal,
+    });
+  }, [id]);
+
+  // When the id changes, and a fetch call is still pending, it'll be aborted.
 }
 ```
