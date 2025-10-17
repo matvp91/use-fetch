@@ -1,0 +1,15 @@
+{
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "./docs",
+  "router": "module",
+  "indexFormat": "table",
+  "mergeReadme": true,
+  "hidePageTitle": true,
+  "parametersFormat": "table",
+  "interfacePropertiesFormat": "table",
+  "classPropertiesFormat": "table",
+  "typeAliasPropertiesFormat": "table",
+  "enumMembersFormat": "table",
+  "propertyMembersFormat": "table",
+  "typeDeclarationFormat": "table"
+}
