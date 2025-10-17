@@ -1,6 +1,8 @@
 name: Test
 on: 
   pull_request:
+  push:
+    branches: [main]
 
 jobs:
   test:
@@ -25,5 +27,5 @@ jobs:
         run: npm run coverage
 
       - name: Report coverage
-        if: always() 
+        if: github.event_name == "pull_request"
         uses: davelosert/vitest-coverage-report-action@v2
