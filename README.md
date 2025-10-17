@@ -7,7 +7,7 @@
 
 A simple fetch hook for making API requests in React apps. Written in TS, with type inference done right.
 
-Visit the [API reference](https://github.com/matvp91/use-fetch/wiki) for more info.
+Visit the [API reference](https://github.com/matvp91/use-fetch/wiki/API) for more info.
 
 ## Installation
 
