@@ -11,7 +11,7 @@ Why not just use something like swr, you ask?
 
 - No stale-while-revalidate principle.
 - Fully component-scoped; no shared context.
-- Muc smaller bundle size (265 kB vs. roughly 6 kB)
+- Much smaller bundle size (265 kB vs. roughly 6 kB)
 - Provides finer-grained control over what and when to fetch.
 - Debounce functionality out of the box.
 
